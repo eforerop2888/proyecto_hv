@@ -22,7 +22,7 @@ nav {
   padding-bottom: 4px; 
 }
 .logo_simple {
-  width: 40vh;
+  width: 35vh;
 }
 footer  {
   background-color: #015bd9;
@@ -31,4 +31,8 @@ footer  {
 }
 .span_errors {
   color: red;
+}
+.panel-primary > .panel-heading {
+    background-color: #015bd9;
+    border-color: #015bd9;
 }

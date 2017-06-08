@@ -24,7 +24,7 @@ class Migration_Add_experiencias_laborales extends CI_Migration {
                                 'null' => TRUE
                         ),
                         'salario_basico' => array(
-                                'type' => 'INT',
+                                'type' => 'BIGINT',
                                 'constraint' => 11,
                                 'null' => TRUE
                         ),
@@ -55,7 +55,7 @@ class Migration_Add_experiencias_laborales extends CI_Migration {
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('experiencias_laborales');
-                $this->dbforge->add_column('experiencias_laborales', ['CONSTRAINT fk_id_personas FOREIGN KEY(persona_id) REFERENCES smp_hv_personas(id)']);
+                $this->dbforge->add_column('experiencias_laborales', ['CONSTRAINT fk_id_personas FOREIGN KEY(persona_id) REFERENCES smp_hv_candidates(id)']);
         }
 
         public function down()

@@ -14,8 +14,8 @@ class Migration_Add_formaciones_academicas extends CI_Migration {
                                 'auto_increment' => TRUE
                         ),
                         'titulo_otorgado' => array(
-                                'type' => 'INT',
-                                'constraint' => 11,
+                                'type' => 'VARCHAR',
+                                'constraint' => '255',
                                 'null' => TRUE
                         ),
                         'nombre_institucion' => array(
@@ -25,7 +25,7 @@ class Migration_Add_formaciones_academicas extends CI_Migration {
                         ),
                         'año' => array(
                                 'type' => 'INT',
-                                'constraint' => 5,
+                                'constraint' => 11,
                                 'null' => TRUE
                         ),
                         'nivel_educacion_id' => array(
@@ -44,7 +44,7 @@ class Migration_Add_formaciones_academicas extends CI_Migration {
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('formaciones_academicas');
                 $this->dbforge->add_column('formaciones_academicas', ['CONSTRAINT fk_id_tipos_formaciones FOREIGN KEY(nivel_educacion_id) REFERENCES smp_hv_niveles_educacion(id)']);
-                $this->dbforge->add_column('formaciones_academicas', ['CONSTRAINT fk_id_personas FOREIGN KEY(persona_id) REFERENCES smp_hv_personas(id)']);
+                $this->dbforge->add_column('formaciones_academicas', ['CONSTRAINT fk_id_personas FOREIGN KEY(persona_id) REFERENCES smp_hv_candidates(id)']);
         }
 
         public function down()
