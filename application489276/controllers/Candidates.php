@@ -52,7 +52,7 @@ class Candidates extends Base_Controller {
 
 	public function candidate_validate()
 	{
-		$this->form_validation->set_rules('numero_documento', 'Numero Documento', 'callback_documento_loggin_check');
+		$this->form_validation->set_rules('numero_documento', 'Numero Documento', 'callback_documento_user_check');
 		if ($this->form_validation->run() == FALSE) {
             return $this->candidate_loggin_render();
         }else{
@@ -60,13 +60,13 @@ class Candidates extends Base_Controller {
         }
 	}
 
-	public function documento_loggin_check($documento_form)
+	public function documento_user_check($documento_form)
 	{
 		$this->load->model('Candidates_model');
 		$numero_documento = $this->Candidates_model->find($documento_form);
 		if ($documento_form != $numero_documento[0]->numero_documento)
 	    {
-            $this->form_validation->set_message('documento_loggin_check', 'El usuario no se encuentra creado en la base de datos');
+            $this->form_validation->set_message('documento_user_check', 'El usuario no se encuentra creado en la base de datos');
             return FALSE;
 	    }
 	    else

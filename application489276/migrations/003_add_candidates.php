@@ -65,7 +65,7 @@ class Migration_Add_candidates extends CI_Migration {
                                 'null' => TRUE
                         ),
                         'password' => array(
-                                'type' => 'VARCHAR',
+                                'type' => 'TEXT',
                                 'constraint' => 1,
                                 'null' => TRUE
                         ),
