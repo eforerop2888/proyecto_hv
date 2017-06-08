@@ -74,4 +74,19 @@ class Candidates extends Base_Controller {
 	        return TRUE;	
 	    }
 	}		
+	public function documento_password_check($password_form)
+	{
+		$numero_documento = $this->input->post('numero_documento');
+		$this->load->model('Candidates_model');
+		$password = $this->Candidates_model->find($documento_form);
+		if ($documento_form != $numero_documento[0]->numero_documento)
+	    {
+            $this->form_validation->set_message('documento_user_check', 'El usuario no se encuentra creado en la base de datos');
+            return FALSE;
+	    }
+	    else
+	    {
+	        return TRUE;	
+	    }
+	}		
 }
