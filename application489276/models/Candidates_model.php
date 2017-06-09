@@ -21,7 +21,18 @@ class Candidates_model extends CI_Model {
 	        'password' => $contrasena
 		);
 		$this->db->insert('smp_hv_candidates', $data);
-		redirect('candidates/loggin');
+		$insert_id = $this->db->insert_id();
+		foreach ($data['niveles_educacion'] as $rowData) {
+			$data = array(
+	        	'titulo_otorgado' => $rowData->titulo_otorgado,
+	        	'nombre_institucion' => $rowData->institucion,
+	        	'año' => $rowData->ano_titulo,
+	        	'persona_id' => $insert_id,
+			);
+			$this->db->insert('smp_hv_formaciones_academicas', $data);
+		}
+		//$this->session->set_flashdata('success', 'Usuario creado exitosamente, podras acceder a tu información y editarla si lo deseas');
+		redirect('candidatos/loggin');
     }
 
     public function find($numero_documento) {
@@ -29,7 +40,14 @@ class Candidates_model extends CI_Model {
 		$this->db->from('candidates');
 		$this->db->where('numero_documento', $numero_documento);
 		$query = $this->db->get();
-		return $query->result();
+		return $query->row();
+    }
 
+    public function findPassword($numero_documento) {
+    	$this->db->select('password');
+		$this->db->from('candidates');
+		$this->db->where('numero_documento', $numero_documento);
+		$query = $this->db->get();
+		return $query->row();
     }
 }

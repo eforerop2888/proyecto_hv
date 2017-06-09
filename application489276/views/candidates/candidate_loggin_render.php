@@ -47,7 +47,7 @@
 										);
 										echo form_input($data);
 									?>
-									<span class="span_errors"><?php echo form_error('nombre_candidato'); ?></span>
+									<span class="span_errors"><?php echo form_error('contrasena'); ?></span>
 								</div>
 							</div>
 						</div>

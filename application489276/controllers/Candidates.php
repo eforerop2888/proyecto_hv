@@ -26,6 +26,9 @@ class Candidates extends Base_Controller {
 	// Función almacenamiento de información de candidatos a base de datos, con validaciones
 	public function candidate_store()
 	{
+
+		$data = $this->input->post();
+		//var_dump($data);
 	  	if ($this->form_validation->run('candidate_store') == FALSE) {
             return $this->candidate_register_render();
         }else{
@@ -53,6 +56,7 @@ class Candidates extends Base_Controller {
 	public function candidate_validate()
 	{
 		$this->form_validation->set_rules('numero_documento', 'Numero Documento', 'callback_documento_user_check');
+		$this->form_validation->set_rules('contrasena', 'Contraseña', 'callback_password_user_check['.$this->input->post('numero_documento').']');
 		if ($this->form_validation->run() == FALSE) {
             return $this->candidate_loggin_render();
         }else{
@@ -64,29 +68,30 @@ class Candidates extends Base_Controller {
 	{
 		$this->load->model('Candidates_model');
 		$numero_documento = $this->Candidates_model->find($documento_form);
-		if ($documento_form != $numero_documento[0]->numero_documento)
-	    {
-            $this->form_validation->set_message('documento_user_check', 'El usuario no se encuentra creado en la base de datos');
-            return FALSE;
-	    }
-	    else
-	    {
-	        return TRUE;	
-	    }
+
+		if (!empty($numero_documento)) {
+			return TRUE;
+		}else {
+			$this->form_validation->set_message('documento_user_check', 'El usuario no se encuentra creado en la base de datos');
+	    	return FALSE;
+		}
 	}		
-	public function documento_password_check($password_form)
+	public function password_user_check($password_form, $numero_documento_form)
 	{
-		$numero_documento = $this->input->post('numero_documento');
+		$numero_documento = $numero_documento_form;
 		$this->load->model('Candidates_model');
-		$password = $this->Candidates_model->find($documento_form);
-		if ($documento_form != $numero_documento[0]->numero_documento)
-	    {
-            $this->form_validation->set_message('documento_user_check', 'El usuario no se encuentra creado en la base de datos');
-            return FALSE;
-	    }
-	    else
-	    {
-	        return TRUE;	
-	    }
+		$password = $this->Candidates_model->findPassword($numero_documento);
+
+		if (!empty($password)) {
+			if ($this->bcrypt->check_password($password_form, $password->password))
+			{
+				return TRUE;
+			}
+			else
+			{
+				$this->form_validation->set_message('password_user_check', 'El password ingresado es incorrecto');
+				return FALSE;
+			}
+		}
 	}		
 }
