@@ -54,5 +54,6 @@ $route['default_controller'] = 'welcome';
 $route['candidatos/ingresar'] = 'candidates/candidate_validate_render';
 $route['candidatos/registrar'] = 'candidates/candidate_register_render';
 $route['candidatos/loggin'] = 'candidates/candidate_loggin_render';
+$route['administracion/listado'] = 'administrator/candidates_list_render';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

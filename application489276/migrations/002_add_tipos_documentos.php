@@ -20,6 +20,21 @@ class Migration_Add_tipos_documentos extends CI_Migration {
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('tipos_documentos');
+                $datos = array(
+                        array(
+                                'tipo_documento' => 'Cedula de Ciudadania'
+                        ),
+                        array(
+                                'tipo_documento' => 'Cedula Extranjeria'
+                        ),
+                        array(
+                                'tipo_documento' => 'Pasaporte'
+                        ),
+                        array(
+                                'tipo_documento' => 'Tarjeta de identidad'
+                        )
+                );
+                $this->db->insert_batch('smp_hv_tipos_documentos', $datos);
         }
 
         public function down()

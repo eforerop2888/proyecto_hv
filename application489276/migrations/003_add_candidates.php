@@ -20,14 +20,12 @@ class Migration_Add_candidates extends CI_Migration {
                         ),
                         'edad' => array(
                                 'type' => 'INT',
-                                'constraint' => 20,
-                                'unsigned' => TRUE,
+                                'constraint' => 20, 
                                 'null' => TRUE
                         ),
                         'tipo_documento_id' => array(
                                 'type' => 'INT',
                                 'constraint' => 20,
-                                'unsigned' => TRUE,
                                 'null' => TRUE
                         ),
                         'numero_documento' => array(
@@ -52,7 +50,6 @@ class Migration_Add_candidates extends CI_Migration {
                         'estado_civil_id' => array(
                                 'type' => 'INT',
                                 'constraint' => 20,
-                                'unsigned' => TRUE,
                                 'null' => TRUE
                         ),
                         'fecha_nacimiento' => array(
@@ -66,8 +63,12 @@ class Migration_Add_candidates extends CI_Migration {
                         ),
                         'password' => array(
                                 'type' => 'TEXT',
-                                'constraint' => 1,
                                 'null' => TRUE
+                        ),
+                        'declaracion_privacidad' => array(
+                                'type' => 'INT',
+                                'constraint' => 20,
+                                'default' => 0,
                         ),
                 ));
                 $this->dbforge->add_key('id', TRUE);

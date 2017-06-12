@@ -20,6 +20,21 @@ class Migration_Add_estados_civiles extends CI_Migration {
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('estados_civiles');
+                $datos = array(
+                        array(
+                                'estado_civil' => 'Casado'
+                        ),
+                        array(
+                                'estado_civil' => 'Separado'
+                        ),
+                        array(
+                                'estado_civil' => 'Soltero'
+                        ),
+                        array(
+                                'estado_civil' => 'Unión Libre'
+                        )
+                );
+                $this->db->insert_batch('smp_hv_estados_civiles', $datos);
         }
 
         public function down()

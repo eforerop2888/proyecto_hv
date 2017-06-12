@@ -175,7 +175,7 @@
 									'type'			=> 'text',
 							        'name'          => 'fecha_nacimiento',
 							        'id'            => 'fecha_nacimiento',
-							        'class'         => 'form-control',
+							        'class'         => 'form-control fechas',
 							        //'required'      => 'required',
 							        'placeholder'   => 'Fecha Nacimiento',
 							        'value'			=> set_value('fecha_nacimiento')
@@ -260,8 +260,8 @@
 						<?php 
 							$options = array();
 							$options = array('0' => '--Seleccionar--');
-							foreach ($estados_civiles as $row_niveles_educacion) {
-								$options[$row_niveles_educacion->id] = $row_niveles_educacion->estado_civil;
+							foreach ($niveles_educacion as $row_niveles_educacion) {
+								$options[$row_niveles_educacion->id] = $row_niveles_educacion->tipo_formacion;
 							}
 							$data = array(
 						        'class'         => 'form-control',
@@ -315,11 +315,7 @@
 				</div>
 				<div class="col-md-1 div_borrar"></div>
 			</div>
-			<div class="row">
-				<div class="col-md-12"></div>
-					<bottom id="clone_educacion" class="btn btn-primary">Agregar</bottom>
-				</div>
-			</div>
+			<bottom id="clone_educacion" class="btn btn-primary">Agregar</bottom>
 		</div>
 	</div>
 	<div class="panel panel-primary">
@@ -327,16 +323,125 @@
 			3. EXPERIENCIA LABORAL
 		</div>
 		<div class="panel-body">
-			<?php 
-				echo form_submit('enviar_candidato', 'Registrar', "class='btn btn-primary'");
-			?>
+			<div class="row info_laboral">
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'text',
+						        'name'          => 'cargo[]',
+						        'class'         => 'form-control',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Cargo',
+							);
+							echo form_input($data);
+						?>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'text',
+						        'name'          => 'empresa[]',
+						        'class'         => 'form-control',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Empresa',
+							);
+							echo form_input($data);
+						?>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'int',
+						        'name'          => 'salario_basico[]',
+						        'class'         => 'form-control',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Salario Basico',
+							);
+							echo form_input($data);
+						?>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'text',
+						        'name'          => 'beneficios[]',
+						        'class'         => 'form-control',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Beneficios',
+							);
+							echo form_input($data);
+						?>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'text',
+						        'name'          => 'fecha_ingreso[]',
+						        'class'         => 'form-control fechas',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Fecha Ingreso'
+							);
+							echo form_input($data);
+						?>
+						<span class="span_errors"><?php echo form_error('fecha_ingreso'); ?></span>
+					</div>
+				</div>	
+				<div class="col-md-3">
+					<div class="form-group">
+						<?php 
+							$data = array(
+								'type'			=> 'text',
+						        'name'          => 'fecha_retiro[]',
+						        'class'         => 'form-control fechas',
+						        //'required'      => 'required',
+						        'placeholder'   => 'Fecha Retiro'
+							);
+							echo form_input($data);
+						?>
+						<span class="span_errors"><?php echo form_error('fecha_retiro'); ?></span>
+					</div>
+				</div>
+				<div class="col-md-1 div_borrar"></div>
+			</div>
+			<bottom id="clone_laboral" class="btn btn-primary">Agregar</bottom>
 		</div>
 	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			4. DECLARACIÓN PRIVACIDAD
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-1">
+					<?php 
+						echo form_checkbox('declaracion_privacidad', 1, FALSE);
+					?>
+				</div>
+				<div class="col-md-11">
+					Declaro que la información presentada en esta formato es veraz y autorizo a Simple para que realice la validación, el tratamiento y actualización de los datos contenidos en el presente formato y en la hoja de vida; cumpliendo con la Ley 1581 de 2012, el Decreto 1377 de 2013 y la Política de	tratamiento de datos personales manejada en nuestra organización, la cual esta publicada en la página web www.pagosimple.com.
+				</div>
+			</div>
+			<?php 
+				echo form_submit('enviar_candidato', 'Registrar', "class='btn btn-primary'");
+			?>	
+		</div>
+	</div>
+	<?php echo form_close(); ?>
 <?php $this->stop() ?>
 <?php $this->start("scripts") ?>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$( "#fecha_nacimiento" ).datepicker(
+			$( ".fechas" ).datepicker(
 				{
 				  changeYear: true,
 				  yearRange: "-100:+0"
@@ -346,11 +451,15 @@
 		$('#clone_educacion').click(function(){
 			$('div.info_academica:first').after($( "div.info_academica:first" ).clone().addClass('nuevaEducacion').find("input").val("").end());
 			$('div.nuevaEducacion div.div_borrar').empty();
-			$('div.nuevaEducacion div.div_borrar').append('<div class="form-group"><bottom class="btn btn-primary borrar">-</bottom></div>');
+			$('div.nuevaEducacion div.div_borrar').append('<div class="form-group"><bottom class="btn btn-primary borrar"><i class="fa fa-eraser" aria-hidden="true"></i></bottom></div>');
+		})
+		$('#clone_laboral').click(function(){
+			var newRow = $('div.info_laboral:first').after($( "div.info_laboral:first" ).clone().addClass('nuevaLaboral').find("input").val("").end());
+			$('div.nuevaLaboral div.div_borrar').empty();
+			$('div.nuevaLaboral div.div_borrar').append('<div class="form-group"><bottom class="btn btn-primary borrar"><i class="fa fa-eraser" aria-hidden="true"></i></bottom></div>');
 		})
 		$(document).on('click', '.borrar', function(){
 			$(this).parents(':eq(2)').remove();
 		})
 	</script>
-	<?php echo form_close(); ?>
 <?php $this->stop() ?>

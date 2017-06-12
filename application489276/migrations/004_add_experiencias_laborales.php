@@ -40,12 +40,6 @@ class Migration_Add_experiencias_laborales extends CI_Migration {
                                 'type' => 'TIMESTAMP',
                                 'null' => TRUE
                         ),
-                        'logros_id' => array(
-                                'type' => 'INT',
-                                'constraint' => 11,
-                                'unsigned' => TRUE,
-                                'null' => TRUE
-                        ),
                         'persona_id' => array(
                                 'type' => 'INT',
                                 'constraint' => 11,
