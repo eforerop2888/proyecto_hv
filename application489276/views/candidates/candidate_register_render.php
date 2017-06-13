@@ -95,7 +95,7 @@
 							<label for="correo_electronico">Correo Electronico</label>
 							<?php 
 								$data = array(
-									'type'			=> 'text',
+									'type'			=> 'mail',
 							        'name'          => 'correo_electronico',
 							        'id'            => 'correo_electronico',
 							        'class'         => 'form-control',

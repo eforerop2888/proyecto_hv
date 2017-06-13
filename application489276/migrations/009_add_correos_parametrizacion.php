@@ -8,25 +8,55 @@ class Migration_Add_correos_parametrizacion extends CI_Migration {
         {
             $this->dbforge->add_field(array(
                 'id' => array(
-                        'type' => 'INT',
-                        'constraint' => 11,
-                        'unsigned' => TRUE,
-                        'auto_increment' => TRUE
+                    'type' => 'INT',
+                    'constraint' => 11,
+                    'unsigned' => TRUE,
+                    'auto_increment' => TRUE
                 ),
-                'correo' => array(
-                        'type' => 'VARCHAR',
-                        'constraint' => '255',                                        
-                        'null' => TRUE
+                'protocolo' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
                 ),
-                'smtp' => array(
-                        'type' => 'VARCHAR',
-                        'constraint' => '255',
-                        'null' => TRUE
+                'host' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
+                ),
+                'puerto' => array(
+                    'type' => 'INT',
+                    'constraint' => 11,                       
+                    'null' => TRUE
+                ),
+                'correo_remitente' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
+                ),
+                'nombre_remitente' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
+                ),
+                'correo_receptor' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
+                ),
+                'copia_receptor' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
+                ),
+                'asunto' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
+                    'null' => TRUE
                 ),
                 'proceso_correo_id' => array(
-                        'type' => 'INT',
-                        'constraint' => 2,
-                        'null' => TRUE
+                    'type' => 'INT',
+                    'constraint' => 2,
+                    'null' => TRUE
                 )
             ));
             $this->dbforge->add_key('id', TRUE);

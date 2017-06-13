@@ -16,13 +16,17 @@ class Migrations extends Base_Controller {
 	{
 	    $this->load->library('migration');
 
-	    for ($i=1; $i < 16; $i++) { 
-	        if ($this->migration->version($i) === FALSE)
+	    $i=1;
+
+	    while ($i <= $this->migration->current()) {
+	    	if ($this->migration->version($i) === FALSE)
 	        {
 	            show_error($this->migration->error_string());
 	        }
+	        $i++;
 	    }
 
+	    echo "Migración realizada exitosamente";
 	}
 
 }

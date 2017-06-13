@@ -22,7 +22,8 @@
 				</tr>
 				<?php 
 					$i = 1;
-					foreach ($candidates_list as $row_candidates_list) {						
+					foreach ($candidates_list as $row_candidates_list) {	
+					$parameters = array('administracion','detalle', $row_candidates_list->id)					
 				?>
 					<tr>
 						<td><?php echo $i; ?></td>
@@ -32,7 +33,7 @@
 						<td><?php echo $row_candidates_list->telefono; ?></td>
 						<td><?php echo $row_candidates_list->direccion_residencia; ?></td>
 						<td>
-							<a href="">
+							<a href="<?php echo site_url($parameters)?>">
 								<i class="fa fa-eye" aria-hidden="true"></i>
 							</a>
 						</td>
