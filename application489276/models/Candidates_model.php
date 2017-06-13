@@ -62,7 +62,7 @@ class Candidates_model extends CI_Model {
 
     public function findPassword($numero_documento) {
     	$this->db->select('password');
-		$this->db->from('candidates');
+		$this->db->from('smp_hv_candidates');
 		$this->db->where('numero_documento', $numero_documento);
 		$query = $this->db->get();
 		return $query->row();

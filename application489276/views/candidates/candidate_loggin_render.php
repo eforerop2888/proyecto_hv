@@ -25,6 +25,7 @@
 									        'class'         => 'form-control',
 									        'required'      => 'required',
 									        'placeholder'   => 'Número de documento',
+									        'value'			=> set_value('numero_documento')
 										);
 										echo form_input($data);
 									?>

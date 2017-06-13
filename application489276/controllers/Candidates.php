@@ -81,11 +81,10 @@ class Candidates extends Base_Controller {
 	}		
 	public function password_user_check($password_form, $numero_documento_form)
 	{
-		$numero_documento = $numero_documento_form;
 		$this->load->model('Candidates_model');
-		$password = $this->Candidates_model->findPassword($numero_documento);
+		$password = $this->Candidates_model->findPassword($numero_documento_form);
 
-		if (!empty($password)) {
+		if ($password) {
 			if ($this->bcrypt->check_password($password_form, $password->password))
 			{
 				return TRUE;
