@@ -8,7 +8,7 @@
 	<?php echo form_open('administrator/mail_store', array('id' => 'form_mail_store')); ?>
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				PARAMETRIZACION CORREOS ELECTRONICOS
+				<i class="fa fa-paper-plane" aria-hidden="true"></i> PARAMETRIZACION CORREOS ELECTRONICOS
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -24,7 +24,7 @@
 								$data = array(
 							        'class'         => 'form-control',
 							        'id' 			=> 'proceso'
-							        //'required'      => 'required'
+							        'required'      => 'required'
 								);
 								echo form_dropdown('proceso', $options, set_value('proceso'), $data);
 							?>
@@ -42,7 +42,7 @@
 							        'name'          => 'protocolo',
 							        'id'            => 'protocolo',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Protocolo',
 							        'value'			=> set_value('protocolo')
 								);
@@ -60,7 +60,7 @@
 							        'name'          => 'host',
 							        'id'            => 'host',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Host',
 							        'value'			=> set_value('host')
 								);
@@ -80,7 +80,7 @@
 							        'name'          => 'puerto',
 							        'id'            => 'puerto',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Puerto',
 							        'value'			=> set_value('puerto')
 								);
@@ -98,7 +98,7 @@
 							        'name'          => 'correo_remitente',
 							        'id'            => 'correo_remitente',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Correo Remitente',
 							        'value'			=> set_value('correo_remitente')
 								);
@@ -118,7 +118,7 @@
 							        'name'          => 'nombre_remitente',
 							        'id'            => 'nombre_remitente',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Nombre Remitente',
 							        'value'			=> set_value('nombre_remitente')
 								);
@@ -136,7 +136,7 @@
 							        'name'          => 'correo_receptor',
 							        'id'            => 'correo_receptor',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Correo destinatario',
 							        'value'			=> set_value('correo_receptor')
 								);
@@ -156,7 +156,7 @@
 							        'name'          => 'copia_receptor',
 							        'id'            => 'copia_receptor',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Copia correo destinatario',
 							        'value'			=> set_value('copia_receptor')
 								);
@@ -174,7 +174,7 @@
 							        'name'          => 'asunto',
 							        'id'            => 'asunto',
 							        'class'         => 'form-control text_clean',
-							        //'required'      => 'required',
+							        'required'      => 'required',
 							        'placeholder'   => 'Asunto',
 							        'value'			=> set_value('asunto')
 								);
@@ -184,20 +184,25 @@
 						</div>
 					</div>
 				</div>
-				<?php echo form_submit('guardar_configuracion', 'Guardar', "class='btn btn-primary'"); ?>
+				<button type="submit" name="guardar_configuracion" class="btn btn-primary">
+					<i class="fa fa-floppy-o" aria-hidden="true"></i>
+					 Guardar
+				</button>
 			</div>
 		</div>
 	<?php echo form_close(); ?>
 <?php $this->stop() ?>
 <?php $this->start("scripts") ?>
 	<script type="text/javascript">
+		/*
+		 * Función Para cargar la información de la configuración de los correos de manera dinamica con ajax
+		*/
 		$( "#proceso" ).change(function() {
 	      	var proceso = $('#proceso').val();
 	        $.ajax({
                 type: 'POST',
                 url: '<?php echo site_url('parametrizacion/select'); ?>',
                 data:{'proceso':proceso},
-                dataType: "json",
                 success:function(result){
                 	if (!result) {
                 		$('.text_clean').val('');

@@ -2,11 +2,18 @@
 
 class Administrator_model extends CI_Model {
 	
+    /*
+     * Metodo constructor
+    */
+
 	function __construct()
     {
         parent::__construct();
     }
 
+    /*
+     * Busqueda en base de datos de los candidatos
+    */
     public function getCandidatesList()
     {
     	//$this->db->order_by('title DESC, name ASC');
@@ -14,6 +21,9 @@ class Administrator_model extends CI_Model {
     	return $query->result();
     }
 
+    /*
+     * Busqueda de detalle de un candidato en base de datos
+    */
     public function getCandidatesDetail($id)
     {
     	$this->db->select('*');
@@ -27,6 +37,9 @@ class Administrator_model extends CI_Model {
     	return $query->result();
     }
 
+    /*
+     * Busqueda de detalle de la experiencia de un candidato en base de datos
+    */
     public function getCandidatesDetailExperience($id)
     {
     	$this->db->select('*');
@@ -37,6 +50,9 @@ class Administrator_model extends CI_Model {
     	return $query->result();
     }
 
+    /*
+     * Busqueda de detalle la configuraciòn de la parametrización para envio de correos electronicos
+    */
     public function getMailProcess()
     {
         $this->db->order_by('proceso DESC');
@@ -44,6 +60,9 @@ class Administrator_model extends CI_Model {
         return $query->result();
     }
 
+    /*
+     * Función para la inserción de la parametrización para envio de correos electronicos
+    */
     public function insertMailParametrization($data)
     {
 
@@ -74,6 +93,9 @@ class Administrator_model extends CI_Model {
         }
     }
 
+    /*
+     * Funciónes para obtener de base de datos el proceso y la configuraciòn almacenada de la configuración de la parametrización
+    */
     public function getConfigurationMail($proceso)
     {
         //$this->db->order_by('proceso DESC');

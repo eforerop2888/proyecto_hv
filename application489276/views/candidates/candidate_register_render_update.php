@@ -2,7 +2,7 @@
  *Vista registro de nuevos usuarios
 -->
 
-<?php $this->layout('template', ['title' => 'Crear hoja vida']) ?>
+<?php $this->layout('template', ['title' => 'Actualizar hoja vida']) ?>
 
 <?php $this->start("contenido") ?>
 	<?php echo form_open('candidates/candidate_store', array('id' => 'form_store_person')); ?>
@@ -22,7 +22,7 @@
 							        'name'          => 'nombre_candidato',
 							        'id'            => 'nombre_candidato',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Nombre del candidato',
 							        'autofocus'     => 'autofocus',
 							        'value'			=> set_value('nombre_candidato')
@@ -41,7 +41,7 @@
 							        'name'          => 'edad',
 							        'id'            => 'edad',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Edad',
 							        'value'			=> set_value('edad')
 								);
@@ -63,7 +63,7 @@
 								$data = array(
 							        'id'            => 'tipo_documento',
 							        'class'         => 'form-control',
-							        'required'      => 'required'
+							        //'required'      => 'required'
 								);
 								echo form_dropdown('tipo_documento', $options, set_value('tipo_documento'), $data);
 							?>
@@ -79,7 +79,7 @@
 							        'name'          => 'numero_documento',
 							        'id'            => 'numero_documento',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Número de documento',
 							        'value'			=> set_value('numero_documento')
 								);
@@ -99,7 +99,7 @@
 							        'name'          => 'correo_electronico',
 							        'id'            => 'correo_electronico',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Correo Electronico',
 							        'value'			=> set_value('correo_electronico')
 								);
@@ -117,7 +117,7 @@
 							        'name'          => 'telefono',
 							        'id'            => 'telefono',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Teléfono Movil y/o Fijo',
 							        'value'			=> set_value('telefono')
 								);
@@ -137,7 +137,7 @@
 							        'name'          => 'direccion_residencia',
 							        'id'            => 'direccion_residencia',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Direcciòn residencia actual',
 									'value'			=> set_value('direccion_residencia')
 								);
@@ -158,7 +158,7 @@
 								$data = array(
 							        'id'            => 'estado_civil',
 							        'class'         => 'form-control',
-							        'required'      => 'required'
+							        //'required'      => 'required'
 								);
 								echo form_dropdown('estado_civil', $options, set_value('estado_civil'), $data);
 							?>
@@ -176,7 +176,7 @@
 							        'name'          => 'fecha_nacimiento',
 							        'id'            => 'fecha_nacimiento',
 							        'class'         => 'form-control fechas',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Fecha Nacimiento',
 							        'value'			=> set_value('fecha_nacimiento')
 								);
@@ -194,7 +194,7 @@
 							        'name'          => 'lugar_nacimiento',
 							        'id'            => 'lugar_nacimiento',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Lugar Nacimiento',
 							        'value'			=> set_value('lugar_nacimiento')
 								);
@@ -214,7 +214,7 @@
 							        'name'          => 'contrasena',
 							        'id'            => 'contrasena',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Contraseña',
 								);
 								echo form_input($data);
@@ -231,7 +231,7 @@
 							        'name'          => 'confirmar_contrasena',
 							        'id'            => 'confirmar_contrasena',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Confirmar Contraseña'
 								);
 								echo form_input($data);
@@ -298,7 +298,7 @@
 				<div class="col-md-12">
 					<button type="submit" name="enviar_candidato" class="btn btn-primary">
 						<i class="fa fa-user-plus" aria-hidden="true"></i>
-						Registrar
+						Actualizar
 					</button>
 				</div>
 			</div>
@@ -319,7 +319,7 @@
 					}
 					$data = array(
 				        'class'         => 'form-control',
-				        'required'      => 'required'
+				        //'required'      => 'required'
 					);
 					echo form_dropdown('niveles_educacion[]', $options, set_value('niveles_educacion'), $data);
 				?>
@@ -333,7 +333,7 @@
 						'type'			=> 'text',
 				        'name'          => 'titulo_otorgado[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Titulo Otorgado',
 					);
 					echo form_input($data);
@@ -348,7 +348,7 @@
 						'type'			=> 'text',
 				        'name'          => 'institucion[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Nombre de la institución',
 					);
 					echo form_input($data);
@@ -363,7 +363,7 @@
 						'type'			=> 'number',
 				        'name'          => 'ano_titulo[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Año',
 					);
 					echo form_input($data);
@@ -389,7 +389,7 @@
 						'type'			=> 'text',
 				        'name'          => 'cargo[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Cargo',
 					);
 					echo form_input($data);
@@ -404,7 +404,7 @@
 						'type'			=> 'text',
 				        'name'          => 'empresa[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Empresa',
 					);
 					echo form_input($data);
@@ -419,7 +419,7 @@
 						'type'			=> 'int',
 				        'name'          => 'salario_basico[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Salario Basico',
 					);
 					echo form_input($data);
@@ -435,7 +435,7 @@
 						'type'			=> 'text',
 				        'name'          => 'beneficios[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Beneficios',
 					);
 					echo form_input($data);
@@ -450,7 +450,7 @@
 						'type'			=> 'text',
 				        'name'          => 'fecha_ingreso[]',
 				        'class'         => 'form-control fechas',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Fecha Ingreso'
 					);
 					echo form_input($data);
@@ -466,7 +466,7 @@
 						'type'			=> 'text',
 				        'name'          => 'fecha_retiro[]',
 				        'class'         => 'form-control fechas',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Fecha Retiro'
 					);
 					echo form_input($data);

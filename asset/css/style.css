@@ -35,16 +35,38 @@ footer  {
 .span_errors {
   color: red;
 }
-.panel-primary > .panel-heading {
+.panel-primary > .panel-heading, .btn-primary {
   background-color: #015bd9;
   border-color: #015bd9;
 }
-.info_laboral {
+.border_info {
   border-bottom: 1px solid;
   border-bottom-style: dashed;
   padding: 15px 0 0px 0;
 }
 
-table a{
+table a {
   color: #000;
+}
+
+.div_privacidad {
+  text-align: center
+}
+
+#clone_laboral, #clone_educacion {
+  margin-top: 10px
+}
+
+.info_academica, .info_laboral {
+  display: none;
+}
+.row_center {
+  text-align: center;
+}
+.divs_login {
+  padding-bottom: 5px;
+}
+.div_borrar {
+    text-align: center;
+    padding-top: 24px;
 }

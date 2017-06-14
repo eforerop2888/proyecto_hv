@@ -7,6 +7,9 @@ class Candidates_model extends CI_Model {
         parent::__construct();
     }
 
+    /*
+     * Función para la inserción de los campos formulario de registro
+    */
     public function insert($data, $contrasena) {
 
 		$datos = array(
@@ -25,17 +28,17 @@ class Candidates_model extends CI_Model {
 		);
 		$this->db->insert('smp_hv_candidates', $datos);
 		$insert_id = $this->db->insert_id();
-		var_dump($data);
-		for ($i=0; $i < count($data['titulo_otorgado']); $i++) { 	
-			$data_titulos = array(
-	        	'titulo_otorgado' => $data['titulo_otorgado'][$i],
-	        	'nombre_institucion' => $data['institucion'][$i],
-	        	'año' => $data['ano_titulo'][$i],
-	        	'nivel_educacion_id' => $data['niveles_educacion'][$i],
-	        	'persona_id' => $insert_id,
-			);
-			$this->db->insert('smp_hv_formaciones_academicas', $data_titulos);
-			//echo $data['titulo_otorgado'][$i].'<br>';
+		if($data['titulo_otorgado']){
+			for ($i=0; $i < count($data['titulo_otorgado']); $i++) { 	
+				$data_titulos = array(
+		        	'titulo_otorgado' => $data['titulo_otorgado'][$i],
+		        	'nombre_institucion' => $data['institucion'][$i],
+		        	'año' => $data['ano_titulo'][$i],
+		        	'nivel_educacion_id' => $data['niveles_educacion'][$i],
+		        	'persona_id' => $insert_id,
+				);
+				$this->db->insert('smp_hv_formaciones_academicas', $data_titulos);
+			}
 		}
 		for ($j=0; $j < count($data['empresa']); $j++) { 	
 			$data_laboral = array(
@@ -48,18 +51,24 @@ class Candidates_model extends CI_Model {
 	        	'persona_id' => $insert_id
 			);
 			$this->db->insert('smp_hv_experiencias_laborales', $data_laboral);
-			//echo $data['cargo'][$j].'<br>';
 		}
     }
 
-    public function find($numero_documento) {
+    /*
+     * Función para la busqueda del tipo y numero de documento de un candidato para el index
+    */
+    public function find($numero_documento, $tipo_documento) {
     	$this->db->select('numero_documento');
 		$this->db->from('candidates');
 		$this->db->where('numero_documento', $numero_documento);
+		$this->db->where('tipo_documento_id', $tipo_documento);
 		$query = $this->db->get();
 		return $query->row();
     }
 
+    /*
+     * Función para la busqueda de la contraseña de un candidato
+    */
     public function findPassword($numero_documento) {
     	$this->db->select('password');
 		$this->db->from('smp_hv_candidates');
