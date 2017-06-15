@@ -15,43 +15,51 @@
 				<table class="table table-hover table-striped">
 					<tr>
 						<th>NOMBRE</th>
-						<td><?php echo $candidate_detail[0]->nombre_completo ?></td>
+						<td><?php echo $candidate_detail->nombre_completo ?></td>
 					</tr>
 					<tr>
 						<th>EDAD</th>
-						<td><?php echo $candidate_detail[0]->edad ?> años</td>
+						<td><?php echo $candidate_detail->edad ?> años</td>
 					</tr>
 					<tr>
 						<th>TIPO DOCUMENTO</th>
-						<td><?php echo $candidate_detail[0]->tipo_documento ?></td>
+						<td><?php echo $candidate_detail->tipo_documento ?></td>
 					</tr>
 					<tr>
 						<th>NÚMERO DOCUMENTO</th>
-						<td><?php echo $candidate_detail[0]->numero_documento ?></td>
+						<td><?php echo $candidate_detail->numero_documento ?></td>
 					</tr>
 					<tr>
 						<th>CORREO ELECTRONICO</th>
-						<td><?php echo $candidate_detail[0]->correo_electronico ?></td>
+						<td><?php echo $candidate_detail->correo_electronico ?></td>
 					</tr>
 					<tr>
 						<th>TELÉFONO</th>
-						<td><?php echo $candidate_detail[0]->telefono ?></td>
+						<td><?php echo $candidate_detail->telefono ?></td>
 					</tr>
 					<tr>
 						<th>DIRECCIÓN RESIDENCIA</th>
-						<td><?php echo $candidate_detail[0]->direccion_residencia ?></td>
+						<td><?php echo $candidate_detail->direccion_residencia ?></td>
 					</tr>
 					<tr>
 						<th>ESTADO CIVIL</th>
-						<td><?php echo $candidate_detail[0]->estado_civil ?></td>
+						<td><?php echo $candidate_detail->estado_civil ?></td>
 					</tr>
 					<tr>
 						<th>FECHA NACIMIENTO</th>
-						<td><?php echo $candidate_detail[0]->fecha_nacimiento ?></td>
+						<td><?php echo $candidate_detail->fecha_nacimiento ?></td>
 					</tr>
 					<tr>
 						<th>LUGAR NACIMIENTO</th>
-						<td><?php echo $candidate_detail[0]->lugar_nacimiento ?></td>
+						<td><?php echo $candidate_detail->lugar_nacimiento ?></td>
+					</tr>
+					<tr>
+						<th>ARCHIVO</th>
+						<td>
+							<a href="<?php echo base_url(); ?>uploads/<?php echo $candidate_detail->file ?>">
+								<i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
+							</a>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -66,7 +74,7 @@
 			<div class="table-responsive">
 				<?php 
 					$i = 1;
-					foreach ($candidate_detail as $row_candidate_detail) { 
+					foreach ($candidate_formacion as $row_candidate_formacion) { 
 				?>
 					<table class="table table-hover table-striped">
 						<tr>
@@ -74,19 +82,19 @@
 						</tr>
 						<tr>
 							<th>TIPO FORMACIÓN</th>
-							<td><?php echo $row_candidate_detail->tipo_formacion ?></td>
+							<td><?php echo $row_candidate_formacion[0]->tipo_formacion ?></td>
 						</tr>
 						<tr>
 							<th>TITULO OTORGADO</th>
-							<td><?php echo $row_candidate_detail->titulo_otorgado ?></td>
+							<td><?php echo $row_candidate_formacion[0]->titulo_otorgado ?></td>
 						</tr>
 						<tr>
 							<th>NOMBRE INSTITUCION</th>
-							<td><?php echo $row_candidate_detail->nombre_institucion ?> años</td>
+							<td><?php echo $row_candidate_formacion[0]->nombre_institucion ?> años</td>
 						</tr>
 						<tr>
 							<th>AÑO</th>
-							<td><?php echo $row_candidate_detail->año ?></td>
+							<td><?php echo $row_candidate_formacion[0]->año ?></td>
 						</tr>
 					</table>
 				<?php 

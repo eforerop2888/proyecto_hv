@@ -12,6 +12,9 @@
     <title>SIMPLE | <?=$this->e($title)?></title>
 </head>
 	<body>
+		<div class="cargando">
+			<img src="<?php echo base_url(); ?>/asset/img/cargando.gif">
+		</div>
 		<div class="container-fluid">
 			<?=$this->insert('header') ?>
 			<div class="contenido">

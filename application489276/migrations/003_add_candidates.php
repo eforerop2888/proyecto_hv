@@ -70,6 +70,18 @@ class Migration_Add_candidates extends CI_Migration {
                                 'constraint' => 20,
                                 'default' => 0,
                         ),
+                        'file' => array(
+                                'type' => 'TEXT',
+                                'null' => TRUE
+                        ),
+                        'fecha_creacion' => array(
+                                'type' => 'TIMESTAMP',
+                                'null' => TRUE
+                        ),
+                        'fecha_actualizacion' => array(
+                                'type' => 'TIMESTAMP',
+                                'null' => TRUE
+                        ),
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('candidates');

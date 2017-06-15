@@ -23,7 +23,7 @@
 								}
 								$data = array(
 							        'class'         => 'form-control',
-							        'id' 			=> 'proceso'
+							        'id' 			=> 'proceso',
 							        'required'      => 'required'
 								);
 								echo form_dropdown('proceso', $options, set_value('proceso'), $data);
@@ -203,6 +203,7 @@
                 type: 'POST',
                 url: '<?php echo site_url('parametrizacion/select'); ?>',
                 data:{'proceso':proceso},
+                dataType: 'json',
                 success:function(result){
                 	if (!result) {
                 		$('.text_clean').val('');

@@ -5,7 +5,7 @@
 <?php $this->layout('template', ['title' => 'Crear hoja vida']) ?>
 
 <?php $this->start("contenido") ?>
-	<?php echo form_open('candidates/candidate_store', array('id' => 'form_store_person')); ?>
+	<?php echo form_open_multipart('candidates/candidate_store', array('id' => 'form_store_person')); ?>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<i class="fa fa-pencil" aria-hidden="true"></i> DATOS PERSONALES
@@ -22,7 +22,7 @@
 							        'name'          => 'nombre_candidato',
 							        'id'            => 'nombre_candidato',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Nombre del candidato',
 							        'autofocus'     => 'autofocus',
 							        'value'			=> set_value('nombre_candidato')
@@ -41,7 +41,7 @@
 							        'name'          => 'edad',
 							        'id'            => 'edad',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Edad',
 							        'value'			=> set_value('edad')
 								);
@@ -63,7 +63,7 @@
 								$data = array(
 							        'id'            => 'tipo_documento',
 							        'class'         => 'form-control',
-							        'required'      => 'required'
+							        //'required'      => 'required'
 								);
 								echo form_dropdown('tipo_documento', $options, set_value('tipo_documento'), $data);
 							?>
@@ -79,7 +79,7 @@
 							        'name'          => 'numero_documento',
 							        'id'            => 'numero_documento',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Número de documento',
 							        'value'			=> set_value('numero_documento')
 								);
@@ -99,7 +99,7 @@
 							        'name'          => 'correo_electronico',
 							        'id'            => 'correo_electronico',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Correo Electronico',
 							        'value'			=> set_value('correo_electronico')
 								);
@@ -117,7 +117,7 @@
 							        'name'          => 'telefono',
 							        'id'            => 'telefono',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Teléfono Movil y/o Fijo',
 							        'value'			=> set_value('telefono')
 								);
@@ -137,7 +137,7 @@
 							        'name'          => 'direccion_residencia',
 							        'id'            => 'direccion_residencia',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Direcciòn residencia actual',
 									'value'			=> set_value('direccion_residencia')
 								);
@@ -158,7 +158,7 @@
 								$data = array(
 							        'id'            => 'estado_civil',
 							        'class'         => 'form-control',
-							        'required'      => 'required'
+							        //'required'      => 'required'
 								);
 								echo form_dropdown('estado_civil', $options, set_value('estado_civil'), $data);
 							?>
@@ -176,7 +176,7 @@
 							        'name'          => 'fecha_nacimiento',
 							        'id'            => 'fecha_nacimiento',
 							        'class'         => 'form-control fechas',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Fecha Nacimiento',
 							        'value'			=> set_value('fecha_nacimiento')
 								);
@@ -194,7 +194,7 @@
 							        'name'          => 'lugar_nacimiento',
 							        'id'            => 'lugar_nacimiento',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Lugar Nacimiento',
 							        'value'			=> set_value('lugar_nacimiento')
 								);
@@ -214,7 +214,7 @@
 							        'name'          => 'contrasena',
 							        'id'            => 'contrasena',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Contraseña',
 								);
 								echo form_input($data);
@@ -231,7 +231,7 @@
 							        'name'          => 'confirmar_contrasena',
 							        'id'            => 'confirmar_contrasena',
 							        'class'         => 'form-control',
-							        'required'      => 'required',
+							        //'required'      => 'required',
 							        'placeholder'   => 'Confirmar Contraseña'
 								);
 								echo form_input($data);
@@ -239,6 +239,22 @@
 							<span class="span_errors" id="econfirmar_contrasena"></span>
 						</div>
 					</div>	
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="upload_file">Adjuntar Archivo</label>
+							<?php 
+								$data = array(
+							        'name'          => 'upload_file',
+							        'id'            => 'upload_file',
+							        ////'required'      => 'required',
+								);
+								echo form_upload($data)
+							?>
+							<span class="span_errors" id="eupload_file"></span>
+						</div>
+					</div>
 				</div>
 		</div>
 	</div>
@@ -319,7 +335,7 @@
 					}
 					$data = array(
 				        'class'         => 'form-control',
-				        'required'      => 'required'
+				        //'required'      => 'required'
 					);
 					echo form_dropdown('niveles_educacion[]', $options, set_value('niveles_educacion'), $data);
 				?>
@@ -333,7 +349,7 @@
 						'type'			=> 'text',
 				        'name'          => 'titulo_otorgado[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Titulo Otorgado',
 					);
 					echo form_input($data);
@@ -348,7 +364,7 @@
 						'type'			=> 'text',
 				        'name'          => 'institucion[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Nombre de la institución',
 					);
 					echo form_input($data);
@@ -363,7 +379,7 @@
 						'type'			=> 'number',
 				        'name'          => 'ano_titulo[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Año',
 					);
 					echo form_input($data);
@@ -374,7 +390,6 @@
 			<div class="form-group">
 				<bottom class="btn btn-danger borrar">
 					<i class="fa fa-eraser" aria-hidden="true"></i>
-					Eliminar
 				</bottom>
 			</div>
 		</div>
@@ -389,7 +404,7 @@
 						'type'			=> 'text',
 				        'name'          => 'cargo[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Cargo',
 					);
 					echo form_input($data);
@@ -404,7 +419,7 @@
 						'type'			=> 'text',
 				        'name'          => 'empresa[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Empresa',
 					);
 					echo form_input($data);
@@ -419,7 +434,7 @@
 						'type'			=> 'int',
 				        'name'          => 'salario_basico[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Salario Basico',
 					);
 					echo form_input($data);
@@ -435,7 +450,7 @@
 						'type'			=> 'text',
 				        'name'          => 'beneficios[]',
 				        'class'         => 'form-control',
-				        'required'      => 'required',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Beneficios',
 					);
 					echo form_input($data);
@@ -449,8 +464,8 @@
 					$data = array(
 						'type'			=> 'text',
 				        'name'          => 'fecha_ingreso[]',
-				        'class'         => 'form-control fechas',
-				        'required'      => 'required',
+				        'class'         => 'form-control fechas fechas_cloned',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Fecha Ingreso'
 					);
 					echo form_input($data);
@@ -465,8 +480,8 @@
 					$data = array(
 						'type'			=> 'text',
 				        'name'          => 'fecha_retiro[]',
-				        'class'         => 'form-control fechas',
-				        'required'      => 'required',
+				        'class'         => 'form-control fechas fechas_cloned',
+				        //'required'      => 'required',
 				        'placeholder'   => 'Fecha Retiro'
 					);
 					echo form_input($data);
@@ -478,10 +493,37 @@
 			<div class="form-group">
 				<bottom class="btn btn-danger borrar">
 					<i class="fa fa-eraser" aria-hidden="true"></i>
-					Eliminar
 				</bottom>
 			</div>
 		</div>
+		<div class="col-md-12 row_center">
+			<bottom class="btn btn-primary clone_logro">
+				<i class="fa fa-plus-circle" aria-hidden="true"></i>
+				Agregar Logro
+			</bottom>
+		</div>
+		<div class="cloned_info_logros"></div>
+	</div>
+
+	<div class="row info_logros inputs_logros">
+		<div class="col-md-1">
+			<strong>Logro</strong>
+		</div>
+		<div class="col-md-10">
+			<div class="form-group">
+				<?php 
+					$data = array(
+						'type'			=> 'text',
+				        'name'          => 'logros[][]',
+				        'class'         => 'form-control',
+				        //'required'      => 'required',
+				        'placeholder'   => 'Logro'
+					);
+					echo form_input($data);
+				?>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
 	</div>
 
 	<!-- FIN div ocultos para generacion de contenido dinamico -->
@@ -518,7 +560,32 @@
 			    .clone()
 			    .removeClass('info_laboral')
 			    .appendTo('.cloned_info_laboral');
+			info_laboral.find('.fechas_cloned')
+			    .attr("id", "")
+			    .removeClass('hasDatepicker')
+			    .removeData('datepicker')
+			    .unbind()
+			    .datepicker(
+			    	{
+					    changeYear: true,
+					    yearRange: "-100:+0",
+					    dateFormat: "yy-mm-dd"
+					}
+			    );
+			info_laboral.find('.inputs_logros')
+				.remove();
+
 		})
+		/*
+		 * Función Para clonar los campos de los logros
+		*/
+		$(document).on('click', '.clone_logro', function(){
+			var info_logros = $('.info_logros')
+			    .clone()
+			    .removeClass('info_logros')
+			    .appendTo('.cloned_info_logros');
+		})
+
 		$(document).on('click', '.borrar', function(){
 			$(this).parents(':eq(2)').remove();
 		})
@@ -526,13 +593,17 @@
 		 * Función para el envio y validación del formulario co ajax
 		*/
 		$( "#form_store_person" ).submit(function(e) {
-	      	var form_dates = $(this).serialize();
+			$('.cargando').show();
+	      	//var form_dates = $(this).serialize();
+	      	var form_dates = new FormData($(this)[0]);
 	      	//console.log(form_dates);
 	        $.ajax({
                 type: 'POST',
                 url: '<?php echo site_url('candidates/candidate_store'); ?>',
                 data: form_dates,
                 dataType: "json",
+                contentType: false,
+    			processData: false,
                 success:function(result){
                 	if(result.estado){
 	                	alert('Guardado exitosamente');
@@ -541,8 +612,12 @@
 							$('#e'+key).text(value);
 						});
 					}
+                },
+                error:function(){
+                	alert("Error al guardar al candidato");
                 }
             });
+            $('.cargando').css('display', 'none');
             e.preventDefault();
 	    });
 	</script>

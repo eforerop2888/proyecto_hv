@@ -6,6 +6,8 @@ class Candidates extends Base_Controller {
 	Public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('Candidates_model');
+		$this->load->model('Administrator_model');
 		$tipos_documentos = $this->load->model('Tipos_documentos_model');
 	}
 
@@ -35,7 +37,6 @@ class Candidates extends Base_Controller {
 	// validate document user check
 	public function documento_user_check($documento_form, $tipo_documento)
 	{
-		$this->load->model('Candidates_model');
 		$numero_documento = $this->Candidates_model->find($documento_form, $tipo_documento);
 
 		if (!empty($numero_documento)) {
@@ -49,7 +50,6 @@ class Candidates extends Base_Controller {
 	// validate document password check
 	public function password_user_check($password_form, $numero_documento_form)
 	{
-		$this->load->model('Candidates_model');
 		$password = $this->Candidates_model->findPassword($numero_documento_form);
 
 		if ($password) {
@@ -90,7 +90,6 @@ class Candidates extends Base_Controller {
 	// validate document user index check
 	public function documento_user_index_check($documento_form, $tipo_documento)
 	{
-		$this->load->model('Candidates_model');
 		$numero_documento = $this->Candidates_model->find($documento_form, $tipo_documento);
 
 		if (empty($numero_documento)) {
@@ -118,6 +117,45 @@ class Candidates extends Base_Controller {
 	public function candidate_store()
 	{
 		$data = $this->input->post();
+		// INICIO Validaciones del formulario de creación de candidatos
+		$this->form_validation->set_rules('upload_file', 'Archivo', 'callback_file_upload');
+		$this->form_validation->set_rules('nombre_candidato', 'Nombre del candidato', 'required|max_length[250]|min_length[5]');
+		$this->form_validation->set_rules('edad', 'Edad', 'required|numeric|max_length[3]|greater_than[0]');
+		$this->form_validation->set_rules('tipo_documento', 'Tipo de documento', 'required|numeric|greater_than[0]|less_than[5]',
+			array(
+                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
+                    'less_than'  => 'La opcion seleccionada no es valida'
+                )
+		);
+		$this->form_validation->set_rules('numero_documento', 'Número de documento', 'required|numeric|max_length[30]|min_length[3]|greater_than[0]|is_unique[smp_hv_candidates.numero_documento]',
+			array(
+                    'is_unique'  => 'El número de documento ingresado ya existe en la base de datos',
+                )
+		);
+		$this->form_validation->set_rules('correo_electronico', 'Correo Electronico', 'required|valid_email|is_unique[smp_hv_candidates.correo_electronico]',
+			array(
+                    'is_unique'  => 'El correo electronico ingresado ya existe en la base de datos',
+                )
+		);
+		$this->form_validation->set_rules('telefono', 'Teléfono Movil y/o Fijo', 'required|numeric|min_length[7]|max_length[20]|greater_than[0]');
+		$this->form_validation->set_rules('direccion_residencia', 'Dirección residencia actual', 'required|max_length[250]|min_length[5]');
+		$this->form_validation->set_rules('estado_civil', 'Estado Civil', 'required|numeric|greater_than[0]|less_than[5]',
+			array(
+                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
+                    'less_than'  => 'La opcion seleccionada no es valida'
+                )
+			);
+		$this->form_validation->set_rules('fecha_nacimiento', 'Fecha Nacimiento', 'required');
+       	$this->form_validation->set_rules('lugar_nacimiento', 'Lugar Nacimiento', 'required|max_length[250]|min_length[4]');
+       	$this->form_validation->set_rules('contrasena', 'Contraseña', 'required|min_length[8]|matches[confirmar_contrasena]');
+       	$this->form_validation->set_rules('confirmar_contrasena', 'Confirmar contraseña', 'required');
+       	$this->form_validation->set_rules('declaracion_privacidad', 'Declaracion Privacidad', 'required|less_than_equal_to[1]',
+			array(
+                    'required'  => 'Debe aceptar la declaración de privacidad',
+                    'less_than_equal_to' => 'La opcion seleccionada no es valida'
+                )
+			);
+       	// FIN Validaciones del formulario de creación de candidatos
 	  	if ($this->form_validation->run('candidate_store') == FALSE) {
             $mensaje = array (
             		'nombre_candidato' => form_error('nombre_candidato'),
@@ -134,17 +172,18 @@ class Candidates extends Base_Controller {
             		'confirmar_contrasena' => form_error('confirmar_contrasena'),
             		'declaracion_privacidad' => form_error('declaracion_privacidad'),
             		'niveles_educacion' => form_error('niveles_educacion[]'),
+            		'upload_file' => form_error('upload_file'),
             	);
             
         }else{
         	$contrasena = $this->input->post('constrasena');
     		$hash = $this->bcrypt->hash_password($contrasena);
-        	$candidates = $this->load->model('Candidates_model');
+        	
         	$this->Candidates_model->insert($data, $hash);
         	$mensaje = array (
         		'estado' => 1,
         	);
-        	//$this->emailCandidate($data);
+        	//$this->email_candidate($data);
         	//$this->session->set_flashdata('success', 'Usuario creado exitosamente, podras acceder a tu información y editarla si lo deseas');
         	//redirect('candidatos/loggin');
         }
@@ -163,6 +202,29 @@ class Candidates extends Base_Controller {
 			'tipos_documentos' => $lista_tipos_documentos,
 			'niveles_educacion' => $lista_niveles_educacion]);
 	}
+	/*
+	 * Función para la validación del cargue de archivos formulario de creación
+	*/
+	function file_upload(){
+
+		if($_FILES['upload_file']['size'] != 0){
+			$config = array(
+				'upload_path' 	=> './uploads/',
+				'allowed_types'	=> 'pdf|docx|doc',
+				'max_size'		=> '2000'
+			);
+
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('upload_file')){
+				$this->form_validation->set_message('file_upload', $this->upload->display_errors('',''));
+				return false;
+			}	
+			else{
+				$this->upload_data['file'] =  $this->upload->data();
+				return true;
+			}	
+		}
+	}
 
 	/*
 	 * Función para renderizar recuperación de contraseña
@@ -177,40 +239,71 @@ class Candidates extends Base_Controller {
 	public function send_mail_recover()
 	{
 		$this->form_validation->set_rules('numero_documento', 'Numero Documento', 'callback_documento_user_check['.$this->input->post('tipo_documento').']');
-
 		if ($this->form_validation->run() == FALSE) {
             return $this->candidate_recover_password();
         }else{
-        	echo "Enviar Email";
+        	$datos_recover = $this->Candidates_model->find($this->input->post('numero_documento'), $this->input->post('tipo_documento'));
+        	$this->recover_password_email($datos_recover);
         }
 	}
 
 	/*
-	 * Función para el envio de correos electronicos
+	 * Función para el envio de correos electronico nuevo candidato creado
 	*/
-	public function emailCandidate($candidate) {
+	public function email_candidate($candidate) {
 
-		$this->load->model('Administrator_model');
 		$parametrizacion = $this->Administrator_model->getInfoProcess(1);
 		
 		//cargamos la configuración para enviar con gmail
 		$config = array(
 			'useragent' => "CodeIgniter",
-			'protocol' => $parametrizacion['protocolo'],
-			'smtp_host' => $parametrizacion['host'],
-			'smtp_port' => $parametrizacion['puerto'],
+			'protocol' => $parametrizacion->protocolo,
+			'smtp_host' => $parametrizacion->host,
+			'smtp_port' => $parametrizacion->puerto,
+			'smtp_user' => $parametrizacion->correo_remitente,
+			'smtp_pass' => 'chelsea06**',
 			'mailtype' => 'html',
 			'charset' => 'utf-8',
 			'newline' => "\r\n"
 		);    
  
 		$this->email->initialize($config);
-		$this->email->from($parametrizacion['correo_remitente'], $parametrizacion['nombre_remitente']);
-		$this->email->to($parametrizacion['correo_receptor']);
-		$this->email->cc($parametrizacion['copia_receptor']);
-		//$this->email->bcc('them@their-example.com');
-		$this->email->subject($parametrizacion['asunto']);
+		$this->email->from($parametrizacion->correo_remitente, $parametrizacion->nombre_remitente);
+		$this->email->to($parametrizacion->correo_receptor);
+		$this->email->cc($parametrizacion->copia_receptor);
+		$this->email->subject($parametrizacion->asunto);
 		$this->email->message('Hoja de vida con los siguientes datos recibidos');
+		$this->email->send();
+		//var_dump($this->email->print_debugger());
+	}
+
+	/*
+	 * Función para el envio de correos para cambio de contraseña
+	*/
+	public function recover_password_email($datos_recover) {
+
+		$url_password = site_url('candidates/candidate_change_password/'.$datos_recover->id.'/'.$datos_recover->tipo_documento_id.'/'.$datos_recover->correo_electronico);
+
+		$parametrizacion = $this->Administrator_model->getInfoProcess(2);
+		
+		//cargamos la configuración para enviar con gmail
+		$config = array(
+			'useragent' => "CodeIgniter",
+			'protocol' => $parametrizacion->protocolo,
+			'smtp_host' => $parametrizacion->host,
+			'smtp_port' => $parametrizacion->puerto,
+			'smtp_user' => $parametrizacion->correo_remitente,
+			'smtp_pass' => 'chelsea06**',
+			'mailtype' => 'html',
+			'charset' => 'utf-8',
+			'newline' => "\r\n"
+		);    
+ 
+		$this->email->initialize($config);
+		$this->email->from($parametrizacion->correo_remitente, $parametrizacion->nombre_remitente);
+		$this->email->to($datos_recover->correo_electronico);
+		$this->email->subject($parametrizacion->asunto);
+		$this->email->message($url_password);
 		$this->email->send();
 		//var_dump($this->email->print_debugger());
 	}		

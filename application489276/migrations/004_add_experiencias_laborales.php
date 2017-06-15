@@ -45,7 +45,15 @@ class Migration_Add_experiencias_laborales extends CI_Migration {
                                 'constraint' => 11,
                                 'unsigned' => TRUE,
                                 'null' => TRUE
-                        )
+                        ),
+                        'fecha_creacion' => array(
+                                'type' => 'TIMESTAMP',
+                                'null' => TRUE
+                        ),
+                        'fecha_actualizacion' => array(
+                                'type' => 'TIMESTAMP',
+                                'null' => TRUE
+                        ),
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('experiencias_laborales');

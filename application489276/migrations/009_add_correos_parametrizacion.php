@@ -57,7 +57,15 @@ class Migration_Add_correos_parametrizacion extends CI_Migration {
                     'type' => 'INT',
                     'constraint' => 2,
                     'null' => TRUE
-                )
+                ),
+                'fecha_creacion' => array(
+                    'type' => 'TIMESTAMP',
+                    'null' => TRUE
+                ),
+                'fecha_actualizacion' => array(
+                    'type' => 'TIMESTAMP',
+                    'null' => TRUE
+                ),
             ));
             $this->dbforge->add_key('id', TRUE);
             $this->dbforge->create_table('correos_parametrizacion');

@@ -30,11 +30,25 @@ class Administrator_model extends CI_Model {
 		$this->db->from('smp_hv_candidates');
 		$this->db->join('smp_hv_tipos_documentos', 'smp_hv_tipos_documentos.id = smp_hv_candidates.tipo_documento_id');
 		$this->db->join('smp_hv_estados_civiles', 'smp_hv_estados_civiles.id = smp_hv_candidates.estado_civil_id');
-		$this->db->join('smp_hv_formaciones_academicas', 'smp_hv_formaciones_academicas.persona_id = smp_hv_candidates.id');
-		$this->db->join('smp_hv_niveles_educacion', 'smp_hv_niveles_educacion.id = smp_hv_formaciones_academicas.nivel_educacion_id');
+		/*$this->db->join('smp_hv_formaciones_academicas', 'smp_hv_formaciones_academicas.persona_id = smp_hv_candidates.id');
+		$this->db->join('smp_hv_niveles_educacion', 'smp_hv_niveles_educacion.id = smp_hv_formaciones_academicas.nivel_educacion_id');*/
 		$this->db->where('smp_hv_candidates.id', $id);
        	$query = $this->db->get();
-    	return $query->result();
+    	return $query->row();
+    }
+
+    /*
+     * Busqueda de detalle de la formacion academica del candidato
+    */
+    public function getCandidatesDetailFormacion($id)
+    {
+        $this->db->select('*');
+        $this->db->from('smp_hv_candidates');
+        $this->db->join('smp_hv_formaciones_academicas', 'smp_hv_formaciones_academicas.persona_id = smp_hv_candidates.id');
+        $this->db->join('smp_hv_niveles_educacion', 'smp_hv_niveles_educacion.id = smp_hv_formaciones_academicas.nivel_educacion_id');
+        $this->db->where('smp_hv_candidates.id', $id);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     /*
@@ -76,6 +90,7 @@ class Administrator_model extends CI_Model {
             'copia_receptor' => $data['copia_receptor'],
             'asunto' => $data['asunto'],
             'proceso_correo_id' => $data['proceso'],
+            'fecha_actualizacion' => date('Y-m-d')
         );
 
         $this->db->select('proceso_correo_id');
@@ -89,6 +104,7 @@ class Administrator_model extends CI_Model {
             $this->db->where('proceso_correo_id', $data['proceso']);
             $this->db->update('smp_hv_correos_parametrizacion');
         }else{
+            $datos['fecha_creacion'] = date('Y-m-d');
             $this->db->insert('smp_hv_correos_parametrizacion', $datos);
         }
     }

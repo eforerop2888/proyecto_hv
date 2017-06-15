@@ -24,6 +24,9 @@ class Migration_Add_procesos_correos extends CI_Migration {
             $datos = array(
                     array(
                         'proceso' => 'Envio correos creación candidato'
+                    ),
+                    array(
+                        'proceso' => 'Envio correos recuperacion contraseña'
                     )
                 );
                 $this->db->insert_batch('smp_hv_procesos_correos', $datos);

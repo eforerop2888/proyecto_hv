@@ -56,6 +56,7 @@ $route['candidatos/registrar'] = 'candidates/candidate_register_render';
 $route['candidatos/actualizar'] = 'candidates/candidate_register_render_update';
 $route['candidatos/validar'] = 'candidates/candidate_form_validation_render';
 $route['candidatos/contrasena'] = 'candidates/candidate_recover_password';
+$route['candidatos/cambiopassword'] = 'candidates/candidate_change_password';
 //$route['candidatos/loggin'] = 'candidates/candidate_loggin_render';
 $route['administracion/listado'] = 'administrator/candidates_list_render';
 $route['administracion/detalle/(:num)'] = 'administrator/detail/$1';

@@ -27,8 +27,11 @@ class Administrator extends Base_Controller {
 	public function detail($id) {
 		$candidate_detail = $this->Administrator_model->getCandidatesDetail($id);
 		$candidate_experiencia = $this->Administrator_model->getCandidatesDetailExperience($id);
+		$candidate_formacion = $this->Administrator_model->getCandidatesDetailFormacion($id);
+
 		echo $this->templates->render('administrator/candidate_detail_render',  ['candidate_detail' => $candidate_detail,
-		 	'candidate_experiencia' => $candidate_experiencia]);
+		 	'candidate_experiencia' => $candidate_experiencia,
+		 	'candidate_formacion' => $candidate_formacion]);
 	}
 
 	/*
