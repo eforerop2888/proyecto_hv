@@ -496,13 +496,13 @@
 				</bottom>
 			</div>
 		</div>
-		<div class="col-md-12 row_center">
+		<!--<div class="col-md-12 row_center">
 			<bottom class="btn btn-primary clone_logro">
 				<i class="fa fa-plus-circle" aria-hidden="true"></i>
 				Agregar Logro
 			</bottom>
 		</div>
-		<div class="cloned_info_logros"></div>
+		<div class="cloned_info_logros"></div>-->
 	</div>
 
 	<div class="row info_logros inputs_logros">
@@ -579,12 +579,12 @@
 		/*
 		 * Función Para clonar los campos de los logros
 		*/
-		$(document).on('click', '.clone_logro', function(){
+		/*$(document).on('click', '.clone_logro', function(){
 			var info_logros = $('.info_logros')
 			    .clone()
 			    .removeClass('info_logros')
 			    .appendTo('.cloned_info_logros');
-		})
+		})*/
 
 		$(document).on('click', '.borrar', function(){
 			$(this).parents(':eq(2)').remove();

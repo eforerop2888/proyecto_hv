@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Add_procesos_correos extends CI_Migration {
+class Migration_Add_log_procesos extends CI_Migration {
 
         public function up()
         {
@@ -15,25 +15,31 @@ class Migration_Add_procesos_correos extends CI_Migration {
                 ),
                 'proceso' => array(
                     'type' => 'VARCHAR',
-                    'constraint' => '255',
+                    'constraint' => '255',                                        
                     'null' => TRUE
-                )
+                ),
             ));
             $this->dbforge->add_key('id', TRUE);
-            $this->dbforge->create_table('procesos_correos');
+            $this->dbforge->create_table('log_procesos');
             $datos = array(
                     array(
-                        'proceso' => 'Envio correos creación candidato'
+                        'proceso' => 'Lectura'
                     ),
                     array(
-                        'proceso' => 'Envio correos recuperacion contraseña'
+                        'proceso' => 'Edición'
+                    ),
+                    array(
+                        'proceso' => 'Descarga'
+                    ),
+                    array(
+                        'proceso' => 'Cambio Contraseña'
                     )
                 );
-            $this->db->insert_batch('smp_hv_procesos_correos', $datos);
+            $this->db->insert_batch('smp_hv_log_procesos', $datos);
         }
 
         public function down()
         {
-            $this->dbforge->drop_table('procesos_correos');
+                $this->dbforge->drop_table('log_procesos');
         }
 }

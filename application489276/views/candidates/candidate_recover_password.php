@@ -11,7 +11,7 @@
 			<i class="fa fa-key" aria-hidden="true"></i> Recuperar contraseña
 		</div>
 		<div class="panel-body">
-			<?php echo form_open('candidates/send_mail_recover'); ?>
+			<?php echo form_open('candidates/validate_user_db_recover'); ?>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">

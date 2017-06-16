@@ -80,7 +80,7 @@
 								</button>
 							</div>
 							<div class="col-md-12 divs_login">
-								<a href="<?php echo site_url()?>">¿Olvidó su contraseña?</a>	
+								<a href="<?php echo site_url('candidatos/contrasena')?>">¿Olvidó su contraseña?</a>	
 							</div>
 							<div class="col-md-12">
 								<a href="<?php echo site_url('candidatos/validar')?>">Registrar hoja de vida</a>	
