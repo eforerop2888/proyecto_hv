@@ -25,9 +25,12 @@ class Candidates extends Base_Controller {
 		$lista_tipos_documentos = $this->Tipos_documentos_model->get_tipos_documentos();
 		$niveles_educacion = $this->load->model( 'niveles_educacion_model' );
 		$lista_niveles_educacion = $this->niveles_educacion_model->get_niveles_educacion();
-		echo $this->templates->render( 'candidates/candidate_register_render', ['estados_civiles' => $lista_estados_civiles,
+		$this->load->view( 'header.php', ['title' => 'Registro candidatos'] );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_register_render', ['estados_civiles' => $lista_estados_civiles,
 			'tipos_documentos' => $lista_tipos_documentos,
 			'niveles_educacion' => $lista_niveles_educacion] );
+		$this->load->view( 'footer.php' );
 	}
 
 	// Función para almacenar la información del formulario de registro de candidatos en la base de datos con validaciones
@@ -100,9 +103,7 @@ class Candidates extends Base_Controller {
        		$mensaje = array (
        			'estado' => 1,
        			);
-	        	//$this->email_candidate($data);
-	        	//$this->session->set_flashdata('success', 'Usuario creado exitosamente, podras acceder a tu información y editarla si lo deseas');
-	        	//redirect('candidatos/loggin');
+	        	$this->email_candidate($data);
        	}
         // Respuesta en formato Json para llamado en Ajax
         echo json_encode( $mensaje );
@@ -149,10 +150,10 @@ class Candidates extends Base_Controller {
 		$this->email->from( $parametrizacion->correo_remitente, $parametrizacion->nombre_remitente );
 		$this->email->to( $parametrizacion->correo_receptor );
 		$this->email->cc( $parametrizacion->copia_receptor );
-		$this->email->subject( $parametrizacion->asunto );
-		$this->email->message( 'Hoja de vida con los siguientes datos recibidos' );
+		$this->email->subject( $parametrizacion->asunto.' - '.$candidate['nombre_candidato'] );
+		$this->email->message( $this->load->view( 'emails/mail_candidate_admin.php',
+		 	['nombre' => $candidate['nombre_candidato']], TRUE )  );
 		$this->email->send();
-		//var_dump($this->email->print_debugger());
 	}
 
 	/*
@@ -160,16 +161,25 @@ class Candidates extends Base_Controller {
 	*/
 
 	// Función para renderizar la vista de actualización de candidatos
-	public function candidate_register_render_update ()
+	public function candidate_register_render_update ($id)
 	{
+		$candidate_detail = $this->Administrator_model->getCandidatesDetail($id);
+		$candidate_experiencia = $this->Administrator_model->getCandidatesDetailExperience($id);
+		$candidate_formacion = $this->Administrator_model->getCandidatesDetailFormacion($id);
 		$estados_civiles = $this->load->model( 'Estados_civiles_model' );
 		$lista_estados_civiles = $this->Estados_civiles_model->get_estados_civiles();
 		$lista_tipos_documentos = $this->Tipos_documentos_model->get_tipos_documentos();
 		$niveles_educacion = $this->load->model( 'niveles_educacion_model' );
 		$lista_niveles_educacion = $this->niveles_educacion_model->get_niveles_educacion();
-		echo $this->templates->render( 'candidates/candidate_register_render_update', ['estados_civiles' => $lista_estados_civiles,
+		$this->load->view( 'header.php', ['title' => 'Actualización candidato'] );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_register_render_update', ['estados_civiles' => $lista_estados_civiles,
 			'tipos_documentos' => $lista_tipos_documentos,
-			'niveles_educacion' => $lista_niveles_educacion] );
+			'niveles_educacion' => $lista_niveles_educacion,
+			'candidate_detail' => $candidate_detail,
+			'candidate_experiencia' => $candidate_experiencia,
+			'candidate_formacion' => $candidate_formacion] );
+		$this->load->view( 'footer.php' );
 	}
 
 	/*
@@ -180,7 +190,10 @@ class Candidates extends Base_Controller {
 	public function candidate_loggin_render ()
 	{
 		$lista_tipos_documentos = $this->Tipos_documentos_model->get_tipos_documentos();
-		echo $this->templates->render( 'candidates/candidate_loggin_render', ['tipos_documentos' => $lista_tipos_documentos] );
+		$this->load->view( 'header.php', ['title' => 'Loggin Candidatos'] );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_loggin_render', ['tipos_documentos' => $lista_tipos_documentos] );
+		$this->load->view( 'footer.php' );
 	}
 
 	// Función para logica de validación formulario candidate_loggin_render()
@@ -191,7 +204,13 @@ class Candidates extends Base_Controller {
 		if ( $this->form_validation->run() == FALSE ) {
             return $this->candidate_loggin_render();
         }else{
-        	return $this->candidate_register_render();
+			$id_candidate = $this->Candidates_model->find( $this->input->post( 'numero_documento'), $this->input->post( 'tipo_documento' ) );
+        	$this->session->set_flashdata('success', 'Candidato encontrado en la base de datos, puede actualizar sus datos');
+        	$userdata = array(
+		        'id'  => $id_candidate->id
+			);
+			$this->session->set_userdata($userdata);
+        	redirect( 'candidatos/actualizar/'.$id_candidate->id );
         }
 	}
 
@@ -229,7 +248,10 @@ class Candidates extends Base_Controller {
 	public function candidate_form_validation_render ()
 	{
 		$lista_tipos_documentos = $this->Tipos_documentos_model->get_tipos_documentos();
-		echo $this->templates->render( 'candidates/candidate_form_validation_render', ['tipos_documentos' => $lista_tipos_documentos] );
+		$this->load->view( 'header.php', ['title' => 'Validar Usuario']  );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_form_validation_render', ['tipos_documentos' => $lista_tipos_documentos] );
+		$this->load->view( 'footer.php' );
 	}
 
 	// Función para logica de validación formulario candidate_form_validation_render()
@@ -237,9 +259,11 @@ class Candidates extends Base_Controller {
 	{
 		$this->form_validation->set_rules( 'numero_documento', 'Numero Documento', 'callback_documento_user_index_check['.$this->input->post('tipo_documento').']' );
 		if ( $this->form_validation->run() == FALSE ) {
-            return $this->candidate_loggin_render();
+			$this->session->set_flashdata('success', 'El usuario ya se encuentra creado en nuestro sistema, por favor ingrese con sus datos');
+            redirect( '/' );
         } else {
-        	return $this->candidate_register_render();
+        	$this->session->set_flashdata('success', 'No has creado tu hoja de vida en nuestro sistema, en el siguiente formulario podras realizarlo');
+        	redirect( 'candidatos/registrar' );
         }
 	}
 
@@ -263,7 +287,10 @@ class Candidates extends Base_Controller {
 	public function candidate_recover_password () 
 	{
 		$lista_tipos_documentos = $this->Tipos_documentos_model->get_tipos_documentos();
-		echo $this->templates->render( 'candidates/candidate_recover_password', ['tipos_documentos' => $lista_tipos_documentos] );	
+		$this->load->view( 'header.php', ['title' => 'Recuperar Contraseña']  );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_recover_password', ['tipos_documentos' => $lista_tipos_documentos] );
+		$this->load->view( 'footer.php' );
 	}
 
 	//Función logica formulario candidate_recover_password() validar si se envia cambio de contraseña
@@ -275,13 +302,17 @@ class Candidates extends Base_Controller {
 		} else {
 			$datos_recover = $this->Candidates_model->find( $this->input->post( 'numero_documento' ), $this->input->post( 'tipo_documento' ) );
 			$this->recover_password_email( $datos_recover );
+			//$this->Administrator_model->logSystem( 'Solicitud restauración contraseña')
 		}
 	}
 	
 	// Función para renderizar formulario para el cambio de contraseña
 	public function candidate_change_password_render ( $user_id ) 
 	{
-		echo $this->templates->render( 'candidates/candidate_change_password_render', ['user_id' => $user_id] );	
+		$this->load->view( 'header.php', ['title' => 'Cambio de contraseña']  );
+		$this->load->view( 'messages.php' );
+		$this->load->view( 'candidates/candidate_change_password_render', ['user_id' => $user_id] );
+		$this->load->view( 'footer.php' );
 	}
 
 	
@@ -298,6 +329,8 @@ class Candidates extends Base_Controller {
         	$contrasena = $this->input->post( 'contrasena' );
         	$hash = $this->bcrypt->hash_password( $contrasena );
         	$this->Candidates_model->updatePassword($this->input->post( 'user_id' ), $hash);
+        	$this->session->set_flashdata('success', 'La contraseña fue cambiada exitosamente, puede ingresar al sistema');
+            redirect( '/' );
         }
 	}
 
@@ -316,14 +349,11 @@ class Candidates extends Base_Controller {
 	//Función para el envio de correos para cambio de contraseña
 	public function recover_password_email ( $datos_recover )
 	{
-		$url_password = site_url( 'candidates/candidate_change_password_render/'.$datos_recover->id );
 		$token = $this->Candidates_model->changePasswordStorage( $datos_recover->id );
-		redirect( 'candidatos/cambiopassword/'.$datos_recover->id );
-
 		$parametrizacion = $this->Administrator_model->getInfoProcess( 2 );
 		
 		//cargamos la configuración para enviar con gmail
-		/*$config = array(
+		$config = array(
 			'useragent' => "CodeIgniter",
 			'protocol' => $parametrizacion->protocolo,
 			'smtp_host' => $parametrizacion->host,
@@ -339,9 +369,11 @@ class Candidates extends Base_Controller {
 		$this->email->from( $parametrizacion->correo_remitente, $parametrizacion->nombre_remitente );
 		$this->email->to( $datos_recover->correo_electronico );
 		$this->email->subject( $parametrizacion->asunto );
-		$this->email->message( $url_password );
-		$this->email->send();*/
-		//var_dump( $this->email->print_debugger() );
+		$this->email->message( $this->load->view( 'emails/mail_recover_password.php', ['nombre' => $datos_recover->nombre_completo, 'token' => $token ], TRUE ) );
+		$this->email->send();
+		//var_dump($this->email->print_debugger());
+		$this->session->set_flashdata('success', 'Un correo con una clave temporal fue enviada a tu correo, la cual debera ser ingresada en el siguiente formulario');
+		redirect( 'candidatos/cambiopassword/'.$datos_recover->id );
 	}
 
 	

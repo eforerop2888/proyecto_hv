@@ -11,7 +11,7 @@ class Base_Controller extends CI_Controller {
 		Parent::__construct();
 		$this->load->helper('html');
 		$this->load->helper('url');
-		$this->templates = new League\Plates\Engine(APPPATH . "/views");
+		//$this->templates = new League\Plates\Engine(APPPATH . "/views");
 	}
 
 }

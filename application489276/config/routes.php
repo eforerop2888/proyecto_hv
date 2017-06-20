@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'candidates/candidate_loggin_render';
 $route['candidatos/ingresar'] = 'candidates/candidate_validate_render';
 $route['candidatos/registrar'] = 'candidates/candidate_register_render';
-$route['candidatos/actualizar'] = 'candidates/candidate_register_render_update';
+$route['candidatos/actualizar/(:num)'] = 'candidates/candidate_register_render_update/$1';
 $route['candidatos/validar'] = 'candidates/candidate_form_validation_render';
 $route['candidatos/contrasena'] = 'candidates/candidate_recover_password';
 $route['candidatos/cambiopassword/(:num)'] = 'candidates/candidate_change_password_render/$1';

@@ -125,4 +125,17 @@ class Administrator_model extends CI_Model {
         $query = $this->db->get('smp_hv_correos_parametrizacion');
         return $query->row();
     }
+
+    /*
+     * Funcion para el almacenamiento de log sistema
+    */
+    public function logSystem($modulo, $usuario_id, $log_proceso_id) {
+        $datos = array(
+            'modulo' => $modulo,
+            'usuario_id' => $usuario_id,
+            'tipo_documento_id' => $log_proceso_id,
+            'fecha' => date( 'Y-m-d' )
+        );
+        $this->db->insert( '$smp_hv_log_auditoria', $datos );
+    }
 }

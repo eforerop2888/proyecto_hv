@@ -81,9 +81,11 @@ table a {
   left: 0;
   z-index: 100;
 }
-
 .cargando img{
   position: relative;
   top: 50%;
   left: 50%;
+}
+.cont_principal {
+  padding: 35px 0;
 }
