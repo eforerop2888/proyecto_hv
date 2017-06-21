@@ -133,9 +133,9 @@ class Administrator_model extends CI_Model {
         $datos = array(
             'modulo' => $modulo,
             'usuario_id' => $usuario_id,
-            'tipo_documento_id' => $log_proceso_id,
+            'log_proceso_id' => $log_proceso_id,
             'fecha' => date( 'Y-m-d' )
         );
-        $this->db->insert( '$smp_hv_log_auditoria', $datos );
+        $this->db->insert( 'smp_hv_log_auditoria', $datos );
     }
 }

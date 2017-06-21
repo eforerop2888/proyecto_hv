@@ -6,4 +6,11 @@
 	</div>
 <?php 
 	}
+	if($this->session->flashdata('danger')){ 
+?>
+	<div class="alert alert-danger" role="alert">
+		<strong>Alerta</strong> <?php echo $this->session->flashdata('danger');?>
+	</div>
+<?php 
+	}
 ?>

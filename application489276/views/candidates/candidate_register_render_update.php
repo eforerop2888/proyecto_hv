@@ -3,7 +3,7 @@
 		-->
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				<?php echo form_open_multipart('candidates/candidate_store', array('id' => 'form_store_person')); ?>
+				<?php echo form_open_multipart('candidates/candidate_update/'.$candidate_detail->id, array('id' => 'form_update_person')); ?>
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<i class="fa fa-pencil" aria-hidden="true"></i> DATOS PERSONALES

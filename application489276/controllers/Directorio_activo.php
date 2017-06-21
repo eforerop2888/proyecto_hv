@@ -7,37 +7,42 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 class Directorio_activo extends Base_Controller {
 
 	public function index() {
-		$conectado_LDAP = ldap_connect("ldap://192.168.0.20/", 389) or
-           die("Couldn't connect to AD!");
 
-        ldap_set_option($conectado_LDAP, LDAP_OPT_PROTOCOL_VERSION, 3);
-		ldap_set_option($conectado_LDAP, LDAP_OPT_REFERRALS, 0);
+	    $adServer = "ldap://192.168.0.20/";
+	    $ldap = ldap_connect($adServer);
+	    $username = "eforero";
+	    $password = "Dmabog39*";
 
-        if ($conectado_LDAP) 
-  		{
-    		echo "<br>Conectado correctamente al servidor LDAP ";
-		}
+	    $ldaprdn = 'SIMPLE' . "\\" . $username;
 
-		$autenticado_LDAP = @ldap_bind($conectado_LDAP, "eforero" . "@" . "ldap://192.168.0.20/", "Dmabog39*");
-	    if ($autenticado_LDAP)
-	    {
-		    echo "<br>Autenticación en servidor LDAP desde Apache y PHP correcta.";
-		}else{
-	      echo "<br>verifique el usuario y la contraseña introducidos<br>";
-	      echo ldap_error($conectado_LDAP);
-	      echo ldap_errno($conectado_LDAP);
+	    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+	    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+
+	    $bind = @ldap_bind($ldap, $ldaprdn, $password);
+
+
+	    if ($bind) {
+	        //$filter="(&(objectCategory=person)(samaccountname=eforero)(memberOf=CN=GS_TALENTO_HUMANO))";
+	        //$filter="(&(objectCategory=person)(samaccountname=eforero)(primarygroupid=513))";
+	        $filter="(&(objectClass=user)(sAMAccountName=$username)(memberof=CN=GS_TALENTO_HUMANO,OU=Grupos,OU=SIMPLE,DC=SIMPLE,DC=local))";
+	        $result = ldap_search($ldap,"dc=SIMPLE,dc=local",$filter);
+	        ldap_sort($ldap,$result,"sn");
+	        $info = ldap_get_entries($ldap, $result);
+	        for ($i=0; $i<$info["count"]; $i++)
+	        {
+	            if($info['count'] > 1)
+	            	break;
+	            echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .")</p>\n";
+	            echo '<pre>';
+	            var_dump($info);
+	            echo '</pre>';
+	            $userDn = $info[$i]["distinguishedname"][0]; 
+	        }
+	        @ldap_close($ldap);
+	    } else {
+	        $msg = "Invalid email address / password";
+	        echo $msg;
 	    }
 	}
 
 }
-
-/*$g_ldap_protocol_version = 3;
-$g_ldap_server = 'ldap://192.168.0.20/';
-$g_ldap_port = '389';
-$g_ldap_root_dn = 'OU=SIMPLE,DC=SIMPLE,DC=local';
-//$g_ldap_organization = '(memberOf=CN=S3,OU=Grupos,OU=SIMPLE,DC=SIMPLE,DC=local)';
-$g_ldap_organization = '';
-$g_ldap_uid_field = 'sAMAccountName';
-$g_ldap_bind_dn = 'mantis';   # A system account to login to LDAP
-$g_ldap_bind_passwd = 'Simple2010';         # System account password
-$g_ldap_realname_field = "name";*/

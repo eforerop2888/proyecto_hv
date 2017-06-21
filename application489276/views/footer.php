@@ -4,6 +4,7 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+		alert('hola');
 		/*
 		 * Función para agregar calendario a los inputs de fechas
 		*/
@@ -92,6 +93,39 @@
 	        $.ajax({
                 type: 'POST',
                 url: '<?php echo site_url('candidates/candidate_store'); ?>',
+                data: form_dates,
+                dataType: "json",
+                contentType: false,
+    			processData: false,
+    			beforeSend: function(){
+    				$('.cargando').css('display', 'block');
+    			},
+                success:function(result){
+                	if(result.estado){
+	                	alert('Tu hoja de vida fue guardada exitosamente, muchas gracias');
+	                	window.location = '<?php echo site_url('/'); ?>';
+					}else{
+						$.each(result, function(key, value){
+							$('#e'+key).text(value);
+						});
+					}
+					$('.cargando').css('display', 'none');
+                },
+                error:function(){
+                	alert("Error al guardar al candidato");
+            		$('.cargando').css('display', 'none');
+                }
+            });
+            e.preventDefault();
+	    });
+	    /*
+		 * Función para el envio y validación del formulario de actualizacion de candidato por ajax
+		*/
+		$( "#form_update_person" ).submit(function(e) {
+	      	var form_dates = new FormData($(this)[0]);
+	        $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url("candidates/candidate_update/$candidate_detail->id"); ?>',
                 data: form_dates,
                 dataType: "json",
                 contentType: false,

@@ -19,8 +19,8 @@ class Migration_Add_log_auditoria extends CI_Migration {
                     'null' => TRUE
                 ),
                 'usuario_id' => array(
-                    'type' => 'INT',
-                    'constraint' => 11,                                        
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',                                        
                     'null' => TRUE
                 ),
                 'log_proceso_id' => array(

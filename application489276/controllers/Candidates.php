@@ -32,19 +32,21 @@ class Candidates extends Base_Controller {
 			'niveles_educacion' => $lista_niveles_educacion] );
 		$this->load->view( 'footer.php' );
 	}
-
+	public function session_active ()
+	{
+		if($this->session->role != 'candidate'){
+			$this->session->set_flashdata('danger', 'Acceso no permitido, debe iniciar sesión primero');
+			redirect('/');
+		}
+	}
 	// Función para almacenar la información del formulario de registro de candidatos en la base de datos con validaciones
 	public function candidate_store ()
 	{
 		$data = $this->input->post();
-		// Validaciones del formulario de creación de candidatos
-		$this->form_validation->set_rules( 'upload_file', 'Archivo', 'callback_file_upload' );
-		$this->form_validation->set_rules( 'nombre_candidato', 'Nombre del candidato', 'required|max_length[250]|min_length[5]' );
-		$this->form_validation->set_rules( 'edad', 'Edad', 'required|numeric|max_length[3]|greater_than[0]' );
-		$this->form_validation->set_rules( 'tipo_documento', 'Tipo de documento', 'required|numeric|greater_than[0]|less_than[5]',
+		$this->register_validations();
+		$this->form_validation->set_rules( 'correo_electronico', 'Correo Electronico', 'required|valid_email|is_unique[smp_hv_candidates.correo_electronico]',
 			array(
-                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
-                    'less_than'  => 'La opcion seleccionada no es valida'
+                    'is_unique'  => 'El correo electronico ingresado ya existe en la base de datos',
                 )
 		);
 		$this->form_validation->set_rules( 'numero_documento', 'Número de documento',
@@ -53,29 +55,7 @@ class Candidates extends Base_Controller {
                     'is_unique'  => 'El número de documento ingresado ya existe en la base de datos',
                 )
 		);
-		$this->form_validation->set_rules( 'correo_electronico', 'Correo Electronico', 'required|valid_email|is_unique[smp_hv_candidates.correo_electronico]',
-			array(
-                    'is_unique'  => 'El correo electronico ingresado ya existe en la base de datos',
-                )
-		);
-		$this->form_validation->set_rules( 'telefono', 'Teléfono Movil y/o Fijo', 'required|numeric|min_length[7]|max_length[20]|greater_than[0]' );
-		$this->form_validation->set_rules( 'direccion_residencia', 'Dirección residencia actual', 'required|max_length[250]|min_length[5]' );
-		$this->form_validation->set_rules( 'estado_civil', 'Estado Civil', 'required|numeric|greater_than[0]|less_than[5]',
-			array(
-                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
-                    'less_than'  => 'La opcion seleccionada no es valida'
-                )
-			);
-		$this->form_validation->set_rules( 'fecha_nacimiento', 'Fecha Nacimiento', 'required' );
-       	$this->form_validation->set_rules( 'lugar_nacimiento', 'Lugar Nacimiento', 'required|max_length[250]|min_length[4]' );
-       	$this->form_validation->set_rules( 'contrasena', 'Contraseña', 'required|min_length[8]|matches[confirmar_contrasena]' );
-       	$this->form_validation->set_rules( 'confirmar_contrasena', 'Confirmar contraseña', 'required' );
-       	$this->form_validation->set_rules( 'declaracion_privacidad', 'Declaracion Privacidad', 'required|less_than_equal_to[1]',
-			array(
-                    'required'  => 'Debe aceptar la declaración de privacidad',
-                    'less_than_equal_to' => 'La opcion seleccionada no es valida'
-                )
-			);
+
        	// Inserción de campos en la base de datos
        	if ($this->form_validation->run() == FALSE) {
        		$mensaje = array (
@@ -107,6 +87,37 @@ class Candidates extends Base_Controller {
        	}
         // Respuesta en formato Json para llamado en Ajax
         echo json_encode( $mensaje );
+	}
+
+	public function register_validations() {
+		// Validaciones del formulario de creación de candidatos
+		$this->form_validation->set_rules( 'upload_file', 'Archivo', 'callback_file_upload' );
+		$this->form_validation->set_rules( 'nombre_candidato', 'Nombre del candidato', 'required|max_length[250]|min_length[5]' );
+		$this->form_validation->set_rules( 'edad', 'Edad', 'required|numeric|max_length[3]|greater_than[0]' );
+		$this->form_validation->set_rules( 'tipo_documento', 'Tipo de documento', 'required|numeric|greater_than[0]|less_than[5]',
+			array(
+                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
+                    'less_than'  => 'La opcion seleccionada no es valida'
+                )
+		);
+		$this->form_validation->set_rules( 'telefono', 'Teléfono Movil y/o Fijo', 'required|numeric|min_length[7]|max_length[20]|greater_than[0]' );
+		$this->form_validation->set_rules( 'direccion_residencia', 'Dirección residencia actual', 'required|max_length[250]|min_length[5]' );
+		$this->form_validation->set_rules( 'estado_civil', 'Estado Civil', 'required|numeric|greater_than[0]|less_than[5]',
+			array(
+                    'greater_than'  => 'Debe seleccionar alguna de las opciones',
+                    'less_than'  => 'La opcion seleccionada no es valida'
+                )
+			);
+		$this->form_validation->set_rules( 'fecha_nacimiento', 'Fecha Nacimiento', 'required' );
+       	$this->form_validation->set_rules( 'lugar_nacimiento', 'Lugar Nacimiento', 'required|max_length[250]|min_length[4]' );
+       	$this->form_validation->set_rules( 'contrasena', 'Contraseña', 'required|min_length[8]|matches[confirmar_contrasena]' );
+       	$this->form_validation->set_rules( 'confirmar_contrasena', 'Confirmar contraseña', 'required' );
+       	$this->form_validation->set_rules( 'declaracion_privacidad', 'Declaracion Privacidad', 'required|less_than_equal_to[1]',
+			array(
+                    'required'  => 'Debe aceptar la declaración de privacidad',
+                    'less_than_equal_to' => 'La opcion seleccionada no es valida'
+                )
+		);
 	}
 
 	// Función callback validación de la función candidate_store(upload_file)
@@ -163,6 +174,7 @@ class Candidates extends Base_Controller {
 	// Función para renderizar la vista de actualización de candidatos
 	public function candidate_register_render_update ($id)
 	{
+		$this->session_active();
 		$candidate_detail = $this->Administrator_model->getCandidatesDetail($id);
 		$candidate_experiencia = $this->Administrator_model->getCandidatesDetailExperience($id);
 		$candidate_formacion = $this->Administrator_model->getCandidatesDetailFormacion($id);
@@ -180,6 +192,54 @@ class Candidates extends Base_Controller {
 			'candidate_experiencia' => $candidate_experiencia,
 			'candidate_formacion' => $candidate_formacion] );
 		$this->load->view( 'footer.php' );
+	}
+
+	public function candidate_update ($id)
+	{
+		$data = $this->input->post();
+		$this->register_validations();
+		$this->form_validation->set_rules( 'correo_electronico', 'Correo Electronico', 'required|valid_email',
+			array(
+                    'is_unique'  => 'El correo electronico ingresado ya existe en la base de datos',
+                )
+		);
+		$this->form_validation->set_rules( 'numero_documento', 'Número de documento',
+				'required|numeric|max_length[30]|min_length[3]|greater_than[0]',
+			array(
+                    'is_unique'  => 'El número de documento ingresado ya existe en la base de datos',
+                )
+		);
+       	// Inserción de campos en la base de datos
+       	if ($this->form_validation->run() == FALSE) {
+       		$mensaje = array (
+       			'nombre_candidato' => form_error( 'nombre_candidato' ),
+       			'edad' => form_error( 'edad'),
+       			'tipo_documento' => form_error( 'tipo_documento' ),
+       			'numero_documento' => form_error( 'numero_documento' ),
+       			'correo_electronico' => form_error( 'correo_electronico' ),
+       			'telefono' => form_error( 'telefono'),
+       			'direccion_residencia' => form_error( 'direccion_residencia' ),
+       			'fecha_nacimiento' => form_error( 'fecha_nacimiento' ),
+       			'estado_civil' => form_error( 'estado_civil' ),
+       			'lugar_nacimiento' => form_error( 'lugar_nacimiento' ),
+       			'contrasena' => form_error( 'contrasena' ),
+       			'confirmar_contrasena' => form_error( 'confirmar_contrasena' ),
+       			'declaracion_privacidad' => form_error( 'declaracion_privacidad' ),
+       			'niveles_educacion' => form_error( 'niveles_educacion[]' ),
+       			'upload_file' => form_error( 'upload_file' ),
+       			);
+       	}else{
+       		$contrasena = $this->input->post( 'contrasena' );
+       		$hash = $this->bcrypt->hash_password( $contrasena );
+       		$file = $_FILES['upload_file']['name'];
+       		$this->Candidates_model->udpate( $data, $hash, $file, $id);
+       		$mensaje = array (
+       			'estado' => 1,
+       		);
+	        $this->email_candidate($data);
+       	}
+        // Respuesta en formato Json para llamado en Ajax
+        echo json_encode( $mensaje );
 	}
 
 	/*
@@ -205,13 +265,19 @@ class Candidates extends Base_Controller {
             return $this->candidate_loggin_render();
         }else{
 			$id_candidate = $this->Candidates_model->find( $this->input->post( 'numero_documento'), $this->input->post( 'tipo_documento' ) );
+        	$this->session_usuarios( $id_candidate->id );
+			$this->Administrator_model->logSystem( 'Ingreso actualización hoja de vida', $this->session->id, 1);
         	$this->session->set_flashdata('success', 'Candidato encontrado en la base de datos, puede actualizar sus datos');
-        	$userdata = array(
-		        'id'  => $id_candidate->id
-			);
-			$this->session->set_userdata($userdata);
         	redirect( 'candidatos/actualizar/'.$id_candidate->id );
         }
+	}
+
+	public function session_usuarios ($id) {
+		$userdata = array(
+	        'id'  => $id,
+	        'role' => 'candidate'
+		);
+		$this->session->set_userdata($userdata);
 	}
 
 	// Función callback validación de la función candidate_validate(numero_documento)
@@ -302,7 +368,6 @@ class Candidates extends Base_Controller {
 		} else {
 			$datos_recover = $this->Candidates_model->find( $this->input->post( 'numero_documento' ), $this->input->post( 'tipo_documento' ) );
 			$this->recover_password_email( $datos_recover );
-			//$this->Administrator_model->logSystem( 'Solicitud restauración contraseña')
 		}
 	}
 	
@@ -329,6 +394,7 @@ class Candidates extends Base_Controller {
         	$contrasena = $this->input->post( 'contrasena' );
         	$hash = $this->bcrypt->hash_password( $contrasena );
         	$this->Candidates_model->updatePassword($this->input->post( 'user_id' ), $hash);
+			$this->Administrator_model->logSystem( 'Cambio de contraseña exitoso', $this->session->id, 4);
         	$this->session->set_flashdata('success', 'La contraseña fue cambiada exitosamente, puede ingresar al sistema');
             redirect( '/' );
         }
@@ -351,6 +417,8 @@ class Candidates extends Base_Controller {
 	{
 		$token = $this->Candidates_model->changePasswordStorage( $datos_recover->id );
 		$parametrizacion = $this->Administrator_model->getInfoProcess( 2 );
+		$this->session_usuarios( $datos_recover->id );
+		$this->Administrator_model->logSystem( 'Solicitud restauración contraseña', $this->session->id, 4);
 		
 		//cargamos la configuración para enviar con gmail
 		$config = array(
